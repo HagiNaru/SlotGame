@@ -1,33 +1,16 @@
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=Shift_JIS">
+<script language="JavaScript">
+<!--//Copyright (C) WEST MiRa http://www.west-mira.jp
 
-<script language="JavaScript"><!--//
-//=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=//
-//=                                                           =//
-//=  Copyright (C) 1998-2004 WEST MiRa. All rights reserved.  =//
-//=            WEST MiRa http://www.west-mira.jp/             =//
-//=                                                           =//
-//=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=//
-
-	hatena=new Image();
-
-
-	//ゲーム開始時のはてなマークの画像を指定
-	hatena.src="hatena.gif";
-
-	//画像の横幅を指定
-	pic_w=50;
-
-	//画像の高さを指定
-	pic_h=50;
-
+	//スロットが回る早さを指定する
+	hayasa=30;
 
 	//初期状態のコインの枚数を指定する
 	coin=50;
 
-	//スロットが回る早さを指定する
-	hayasa=1000;
+	//コインを使い果たした時のメッセージを指定する
+	mes='貴方はコインを使い果たしてしまいました。';
 
 	//ぞろ目時の賞金の倍率を指定する
 	//2だったら揃った数の2倍、3だったら揃った数の3倍
@@ -37,377 +20,118 @@
 	//2だったら揃った数の2倍、3だったら揃った数の3倍
 	rate2=3;
 
-	//スロットのリールの長さを指定する
-	reels_len=15;
-
-
-	//コインを使い果たした時のメッセージを指定する
-	mes='手持ちコインがありません...';
-
-	//メッセージ欄の背景色を指定
-	mes_bgcolor='#fbdcae';
-
-	//メッセージ欄の文字色を指定
-	mes_fontcolor='#000000';
-
-	//メッセージ欄の横幅を指定
-	mes_w=280;
-
-	//センター表示チェック。1ならセンター表示、0なら指定位置優先
-	cen_han=1;
-
-	//表示位置
-	x_iti=300;
-	y_iti=50;
-
-	//メッセージ欄が消えるまでの秒数
-	mes_time=3;
-
 
 	kekka=coin;
-	moji='';
-	nums=new Array('','','','','','','','','');
-	reels=new Array();
-	timers=0; time_win=0;
-	e1=0; e2=0; e3=0;
-	now1=0; now2=0; now3=0;
-	pic=new Array();
+	nums=new Array('','','');
+	timers=0;
+	e1=0;
 	function hajime()
 		{
-		if(cen_han == 1)
-			{
-			if((document.layers) || ((document.getElementById) && (!document.all)))
-				{
-				x_iti=(outerWidth-mes_w)/2;
-				}
-			else 
-				{
-				x_iti=(document.body.clientWidth-mes_w)/2;
-				}
-			}
-
-		for(i = 0; i < 10; i++)
-			{
-			pic[i]=new Image();
-			pic[i].src=""+i+".gif";
-			document.images["hidden"].src=pic[i].src;
-			}
-		document.images["hidden"].src=hatena.src;
 		kekka=coin;
 		document.form1.kekka.value=coin;
-		for(i = 0; i < 9; i++)
-			document.images["pic"+i].src=hatena.src;
+		document.form1.text1.value=" ";
+		document.form1.text2.value=" ";
+		document.form1.text3.value=" ";
 		}
 
 	function srot()
 		{
 		if(e1 < 1000)
 			{
-			if(now1+1 >= reels_len)
+			nums[0]=Math.floor(Math.random()*46);
+			nums[1]=Math.floor(Math.random()*46);
+			nums[2]=Math.floor(Math.random()*46);
+			for(l=0; l < 3; l++)
 				{
-				nums[0]=reels[0].charAt(1);
-				nums[1]=reels[0].charAt(0);
-				nums[2]=reels[0].charAt(now1);
-				}
-			else if(now1+2 >= reels_len)
-				{
-				nums[0]=reels[0].charAt(0);
-				nums[1]=reels[0].charAt(now1+1);
-				nums[2]=reels[0].charAt(now1);
-				}
-			else 
-				{
-				nums[0]=reels[0].charAt(now1+2);
-				nums[1]=reels[0].charAt(now1+1);
-				nums[2]=reels[0].charAt(now1);
-				}
-			document.images["pic"+0].src=pic[nums[0]].src;
-			document.images["pic"+1].src=pic[nums[1]].src;
-			document.images["pic"+2].src=pic[nums[2]].src;
-			e1++; now1++;
-			if(now1 >= reels_len)now1=0;
-			clearTimeout(timers);
-			if(e1 < 1000)timers=setTimeout('srot()',hayasa);
-			}
-		else if(e1 == 1000)stop();
-
-		if(e2 < 1000)
-			{
-			if(now2+1 >= reels_len)
-				{
-				nums[3]=reels[1].charAt(1);
-				nums[4]=reels[1].charAt(0);
-				nums[5]=reels[1].charAt(now2);
-				}
-			else if(now2+2 >= reels_len)
-				{
-				nums[3]=reels[1].charAt(0);
-				nums[4]=reels[1].charAt(now2+1);
-				nums[5]=reels[1].charAt(now2);
-				}
-			else 
-				{
-				nums[3]=reels[1].charAt(now2+2);
-				nums[4]=reels[1].charAt(now2+1);
-				nums[5]=reels[1].charAt(now2);
-				}
-			document.images["pic"+3].src=pic[nums[3]].src;
-			document.images["pic"+4].src=pic[nums[4]].src;
-			document.images["pic"+5].src=pic[nums[5]].src;
-			e2++; now2++;
-			if(now2 >= reels_len)now2=0;
-			clearTimeout(timers);
-			if(e2 < 1000)timers=setTimeout('srot()',hayasa);
-			}
-		else if(e2 == 1000)stop();
-
-		if(e3 < 1000)
-			{
-			if(now3+1 >= reels_len)
-				{
-				nums[6]=reels[2].charAt(1);
-				nums[7]=reels[2].charAt(0);
-				nums[8]=reels[2].charAt(now3);
-				}
-			else if(now3+2 >= reels_len)
-				{
-				nums[6]=reels[2].charAt(0);
-				nums[7]=reels[2].charAt(now3+1);
-				nums[8]=reels[2].charAt(now3);
-				}
-			else 
-				{
-				nums[6]=reels[2].charAt(now3+2);
-				nums[7]=reels[2].charAt(now3+1);
-				nums[8]=reels[2].charAt(now3);
-				}
-			document.images["pic"+6].src=pic[nums[6]].src;
-			document.images["pic"+7].src=pic[nums[7]].src;
-			document.images["pic"+8].src=pic[nums[8]].src;
-			e3++; now3++;
-			if(now3 >= reels_len)now3=0;
-			clearTimeout(timers);
-			if(e3 < 1000)timers=setTimeout('srot()',hayasa);
-			}
-		else if(e3 == 1000)stop();
-		}
-
-	function stop()
-		{
-		for(i = 0; i < 9; i++)
-			document.images["pic"+i].src=pic[nums[i]].src;
-
-		if(e1 == 1000)e1=2000;
-		else if(e2 == 1000)e2=2000;
-		else if(e3 == 1000)e3=2000;
-
-		kekka_moji='';
-		if(e1 == 2000 && e2 == 2000 && e3 == 2000)
-			{
-			tmp = 0;
-			for(i=0 , j=0 , k=0; i < 3; i++)
-				{
-				if(nums[j] == nums[j+1] && nums[j] == nums[j+2])
+				for(i=0,j=9,k=j; i < 10; i++)
 					{
-					if(nums[j] == 0)tmp+=10*rate1;
-					else tmp+=nums[j]*rate1;
-					kekka_moji+=nums[j]+''+nums[j+1]+''+nums[j+2]+'<br>';
-					}
-				if(nums[k] == nums[k+3] && nums[k] == nums[k+6])
-					{
-					if(nums[j] == 0)tmp+=10*rate1;
-					else tmp+=nums[j]*rate1;
-					kekka_moji+=nums[k]+''+nums[k+3]+''+nums[k+6]+'<br>';
-					}
-
-				if(nums[j] == nums[j+1]+1 && nums[j] == nums[j+2]+2)
-					{
-					if(nums[j] == 0)tmp+=10*rate2;
-					else tmp+=nums[j]*rate2;
-					kekka_moji+=nums[j]+''+nums[j+1]+''+nums[j+2]+'<br>';
-					}
-				if(nums[j] == nums[j+1]-1 && nums[j] == nums[j+2]-2)
-					{
-					if(nums[j] == 0)tmp+=10*rate2;
-					else tmp+=nums[j]*rate2;
-					kekka_moji+=nums[j]+''+nums[j+1]+''+nums[j+2]+'<br>';
-					}
-
-				if(nums[k] == nums[k+3]+1 && nums[k] == nums[k+6]+2)
-					{
-					if(nums[j] == 0)tmp+=10*rate2;
-					else tmp+=nums[j]*rate2;
-					kekka_moji+=nums[k]+''+nums[k+3]+''+nums[k+6]+'<br>';
-					}
-				if(nums[k] == nums[k+3]-1 && nums[k] == nums[k+6]-2)
-					{
-					if(nums[j] == 0)tmp+=10*rate2;
-					else tmp+=nums[j]*rate2;
-					kekka_moji+=nums[k]+''+nums[k+3]+''+nums[k+6]+'<br>';
-					}
-				j+=3;
-				k++;
-				}
-
-			if(nums[0] == nums[4] && nums[4] == nums[8])
-				{
-				if(nums[0] == 0)tmp+=10*rate1;
-				else tmp+=nums[0]*rate1;
-				kekka_moji+=nums[0]+''+nums[4]+''+nums[8]+'<br>';
-				}
-			if(nums[6] == nums[4] && nums[4] == nums[2])
-				{
-				if(nums[6] == 0)tmp+=10*rate1;
-				else tmp+=nums[6]*rate1;
-				kekka_moji+=nums[6]+''+nums[4]+''+nums[2]+'<br>';
-				}
-
-			if(kekka_moji != '')
-				{
-				moji='<strong>You Win！<\/strong><br><br>';
-				moji+=kekka_moji+'<br>おめでとうございます！<br>貴方は'+tmp+'枚コインを獲得しました。<br>';
-				kekka += tmp;
-				document.form1.kekka.value=kekka;
-
-				winner();
-				}
-			}
-		}
-
-	function winner()
-		{
-		kazari='<table width="'+mes_w+'" bgcolor="'+mes_bgcolor+'" cellpadding="4" cellspacing="0" border="0"><tr align="center"><td>';
-		kazari+='<br><br><font color="'+mes_fontcolor+'">';
-		kazari2='<br><br><\/font><\/td><\/tr><\/table>';
-
-		if(document.layers)
-			{
-			document.layers["lay0"].moveTo(x_iti,y_iti);
-			document.layers["lay0"].document.open();
-			document.layers["lay0"].document.write(kazari+moji+kazari2);
-			document.layers["lay0"].document.close();
-			document.layers["lay0"].visibility='show';
-		}
-
-		else if((document.getElementById) && (!document.all))
-			{
-			document.getElementById("lay0").style.top=y_iti;
-			document.getElementById("lay0").innerHTML=kazari+moji+kazari2;
-			document.getElementById("lay0").style.visibility='visible';
-			}
-
-		else if(document.all)
-			{
-			document.all("lay0").style.pixelLeft=x_iti;
-			document.all("lay0").style.pixelTop=y_iti;
-			document.all("lay0").innerHTML=kazari+moji+kazari2;
-			document.all("lay0").style.visibility='visible';
-			}
-		clearTimeout(time_win);
-		time_win=setTimeout('layer_kakusu()',mes_time*1000);
-		}
-
-	function layer_kakusu()
-		{
-		if(document.layers)
-			document.layers["lay0"].visibility="hidden";
-		else if((document.getElementById) && (!document.all))
-			document.getElementById("lay0").style.visibility="hidden";
-		else if(document.all)
-			document.all("lay0").style.visibility="hidden";
-		return;
-		}
-
-	function starts(e)
-		{
-		e=eval(e);
-		if(e == 0)
-			{
-			if(kekka < 1)
-				{
-				moji='<strong>Game Over...<\/strong><br><br>';
-				moji+=mes+'<br><br>';
-				moji+='もう一度挑戦するには、<br>Resetボタンを押して下さい。<br><br>';
-				winner();
-				document.form1.kekka.value=0;
-				}
-			else 
-				{
-				for(m = 0; m < 3; m++)
-					{
-					reels[m]='';
-					j=9; k=j; l=0;
-					while(reels[m].length < reels_len)
+					if(nums[l] < k || nums[l] == 45)
 						{
-						tmp=Math.floor(Math.random()*46);
-						if(tmp < k || tmp == 45)
-							{
-							if(l+1 == 10)reels[m]+=''+0;
-							else reels[m]+=''+(l+1);
-							}
-						j--;
-						k+=j;
-						l++;
-						if(l > 9){ j=9; k=j; l=0; }
+						if(i+1 == 10)nums[l]=0;
+						else nums[l]=i+1;
+						break;
 						}
+					j--;
+					k+=j;
 					}
-				kekka--;
-				document.form1.kekka.value=kekka;
-				e1=0;e2=0;e3=0;
-				for(i = 0; i < 9; i++)
-					document.images["pic"+i].src=hatena.src;
-				srot();
 				}
+
+			document.form1.text1.value=nums[0];
+			document.form1.text2.value=nums[1];
+			document.form1.text3.value=nums[2];
+
+			e1++;
+			clearTimeout(timers);
+			timers=setTimeout('srot()',hayasa);
 			}
-		else if(e == 1)e1=1000;
-		else if(e == 2)e2=1000;
-		else if(e == 3)e3=1000;
+
+		else 
+			{
+			document.form1.text1.value=nums[0];
+			document.form1.text2.value=nums[1];
+			document.form1.text3.value=nums[2];
+			if(nums[0] == nums[1] && nums[1] == nums[2])
+				{
+				if(nums[0] == 0)kekka+=10*rate1;
+				else kekka+=nums[0]*rate1;
+				}
+			else if(nums[0] == nums[1]+1 && nums[1] == nums[2]+1)
+				{
+				if(nums[0] == 0)kekka+=10*rate2;
+				else kekka+=nums[0]*rate2;
+				}
+			else if(nums[2] == nums[1]+1 && nums[1] == nums[0]+1)
+				{
+				if(nums[0] == 0)kekka+=10*rate2;
+				else kekka+=nums[0]*rate2;
+				}
+			document.form1.kekka.value=kekka;
+			}
 		}
+
+	function starts()
+		{
+		if(kekka<1)
+			{
+			alert(mes);
+			document.form1.kekka.value=0;
+			}
+		else 
+			{
+			kekka--;
+			document.form1.kekka.value=kekka;
+			e1=0;
+			srot();
+			}
+		}
+
+	function stop(){e1=1000;}
 
 //-->
 </script>
-
 </head>
-
 <body onLoad="hajime();">
 
-<!-- 以下変更不可 -->
-
-<span id="lay0" style="position:absolute;visibility:hidden;"></span>
-<img src="dummy.gif" name="hidden" width="1" height="1" border="0">
-
-<table border="1" align="center">
-<tr align="center">
-
-	<script language="JavaScript" type="text/javascript">
-	<!--//Copyright (C) WEST MiRa http://www.west-mira.jp
-
-		for(i = 0 , j = 0; i < 3; i++)
-			{
-			document.write('<td>');
-			document.write('<img src="'+hatena.src+'" name="pic'+j+'" border="0" width="'+pic_w+'" height="'+pic_h+'"><br>');
-			j++;
-			document.write('<img src="'+hatena.src+'" name="pic'+j+'" border="0" width="'+pic_w+'" height="'+pic_h+'"><br>');
-			j++;
-			document.write('<img src="'+hatena.src+'" name="pic'+j+'" border="0" width="'+pic_w+'" height="'+pic_h+'"><br>');
-			j++;
-			document.write('<br><input type="button" value="Stop!" onClick="starts('+(i+1)+');"><\/td>');
-			}
-
-	//-->
-	</script>
-
+<table border="1" align="center"><form name="form1"><tr>
+<td align="center"><input type="text" size="1" name="text1"></td>
+<td align="center"><input type="text" size="1" name="text2"></td>
+<td align="center"><input type="text" size="1" name="text3"></td>
 </tr>
-<tr><td colspan="3" align="center"><br>
-<form name="form1">
-<input type="button" value="Start!" onClick="starts(0);">
-<input type="button" value="Reset" onClick="hajime();"><br><br>
-手持ちコインはあと<input type="text" size="3" name="kekka">枚。
+
+<tr>
+<td colspan="3" align="center">
+<input type="button" value="Start!" onClick="starts();">
+<input type="button" value="Stop!" onClick="stop();">
+<input type="button" value="Reset" onClick="hajime();">
+</td>
+</tr>
+
+<tr>
+<td colspan="3">手持ちコインはあと<input type="text" size="3" name="kekka">枚。</td>
+</tr>
 </form>
-</td></tr></table>
 
-<!-- 以上変更不可 -->
+</table>
 
-</div>
-
-</body></html>
+</body>
+</html>
