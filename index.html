@@ -1,6 +1,7 @@
 <html>
 <head>
-	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+<!-- 2022/07/06 cssを追加 -->
+<link rel="stylesheet" href="SlotGame.css">
 
 <script language="JavaScript"><!--//
 //=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=*=//
@@ -391,7 +392,7 @@
 			j++;
 			document.write('<img src="'+hatena.src+'" name="pic'+j+'" border="0" width="'+pic_w+'" height="'+pic_h+'"><br>');
 			j++;
-			document.write('<br><input type="button" value="Stop!" onClick="starts('+(i+1)+');"><\/td>');
+			document.write('<br><input type="button" value="Stop!" onClick="starts('+(i+1)+');" style="width:100px;height:50px" ><\/td>');
 			}
 
 	//-->
@@ -400,8 +401,8 @@
 </tr>
 <tr><td colspan="3" align="center"><br>
 <form name="form1">
-<input type="button" value="Start!" onClick="starts(0);">
-<input type="button" value="Reset" onClick="hajime();"><br><br>
+<input type="button" value="Start!" onClick="starts(0);" style="width:100px;height:50px" >
+<input type="button" value="Reset" onClick="hajime();" style="width:100px;height:50px" ><br><br>
 手持ちコインはあと<input type="text" size="3" name="kekka">枚。
 </form>
 </td></tr></table>
